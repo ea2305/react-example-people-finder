@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+// import components
+import ListItem from './ListItem'
+
 class List extends Component {
   constructor () {
     super()
@@ -25,23 +28,9 @@ class List extends Component {
 
   render () {
     const items = this.state.users.map(user => {
-      return (
-        <div className="card" key={user.id}>
-          <div className="card-content">
-            <div className="media">
-              <div className="media-left">
-                <figure className="image is-48x48">
-                  <img src={user.picture} alt={`About ${user.fullname}`} />
-                </figure>
-              </div>
-              <div className="media-content">
-                <p className="title is-4">{ user.fullname }</p>
-                <p className="subtitle is-6">{ user.from }</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
+      // remove irrelevant props
+      const { id, ...listItemProps } = user
+      return <ListItem key={id} {...listItemProps} />
     })
 
     return <div> { items } </div>
