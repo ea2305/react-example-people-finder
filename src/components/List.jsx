@@ -6,12 +6,11 @@ import ListItem from './ListItem'
 class List extends Component {
   constructor () {
     super()
-    this.state = {
-      users: []
-    }
+    this.state = { users: [] }
   }
   componentDidMount () {
-    fetch("https://api.randomuser.me/?results=50")
+    const { page, perPage } = this.props
+    fetch(`https://api.randomuser.me/?page=${page}&results=${perPage}`)
       .then(res => res.json())
       .then(data => this.usersFilter(data))
       .then(users => { this.setState({ users }) })
