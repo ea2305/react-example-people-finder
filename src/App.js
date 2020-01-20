@@ -11,10 +11,23 @@ class App extends Component {
     super()
     this.state = {
       page: 1,
-      pages: 1,
+      pages: 5,
       perPage: 50,
-      gender: ''
+      gender: '',
+      seed: 'examplereact2'
     }
+
+    this.setFilters = this.setFilters.bind(this)
+  }
+
+  setFilters ({ page, pages, perPage, gender }) {
+    // update data from props
+    page = page || this.state.page
+    pages = pages || this.state.pages
+    perPage = perPage || this.state.perPage
+    gender = gender || this.state.gender
+
+    this.setState( { page, pages, perPage, gender } )
   }
 
   render () {
@@ -26,10 +39,10 @@ class App extends Component {
         <div className="columns is-multiline is-mobile is-centered has-background-danger">
           <div className="column is-10 has-background-white">
             { /** filters */}
-            <Filter {...filters}/>
+            <Filter {...filters} setFilters={this.setFilters} />
 
             { /** render body components */}
-            <List {...filters}/>
+            <List {...filters} setFilters={this.setFilters}/>
           </div>
         </div>
       </div>

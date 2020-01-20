@@ -17,8 +17,17 @@ class Filter extends Component {
         <div>
         <nav className="pagination" role="navigation" aria-label="pagination">
 
-          <button className="pagination-previous" disabled={ page <= 1 }>Prev</button>
-          <button className="pagination-next" disabled={ page >= pages }>Next</button>
+          <button
+            onClick={() => this.props.setFilters({ page: page - 1 })}
+            className="pagination-previous" disabled={ page <= 1 }>
+              Prev
+          </button>
+          <button
+            onClick={() => this.props.setFilters({ page: page + 1 })}
+            className="pagination-next"
+            disabled={ page >= pages }>
+              Next
+          </button>
 
           <ul className="pagination-list">
 
@@ -33,7 +42,7 @@ class Filter extends Component {
 
               return (
                 <li key={key}>
-                  <button className={pageClass} aria-label={ `page ${currentPage}` } aria-current="page">{currentPage}</button>
+                  <button onClick={() => this.props.setFilters({ page: currentPage })} className={pageClass} aria-label={ `page ${currentPage}` } aria-current="page">{currentPage}</button>
                 </li>
               )
             })) }
