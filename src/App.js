@@ -14,10 +14,35 @@ class App extends Component {
       pages: 5,
       perPage: 50,
       gender: '',
-      seed: 'examplereact2'
+      seed: 'examplereact2',
+      users: []
     }
 
+    this.fetchData = this.fetchData.bind(this)
     this.setFilters = this.setFilters.bind(this)
+    this.usersFilter = this.usersFilter.bind(this)
+  }
+
+  componentDidMount () {
+    this.fetchData()
+  }
+
+  fetchData () {
+    const { seed, page, perPage } = this.state
+    fetch(`https://api.randomuser.me/?page=${page}&results=${perPage}&seed?=${seed}`)
+      .then(res => res.json())
+      .then(data => this.usersFilter(data))
+      .then(users => { this.setState({ users }) })
+  }
+
+  usersFilter (data) {
+    this.setState({ pages: 5 })
+    return data.results.map(user => ({
+      id: user.login.uuid,
+      picture: user.picture.medium,
+      fullname: `${user.name.title} ${user.name.first} ${user.name.last}`,
+      from: user.location.country
+    }))
   }
 
   setFilters ({ page, pages, perPage, gender }) {
@@ -28,10 +53,11 @@ class App extends Component {
     gender = gender || this.state.gender
 
     this.setState( { page, pages, perPage, gender } )
+    this.fetchData()
   }
 
   render () {
-    const filters = this.state
+    const { users, ...filters} = this.state
     return (
       <div className="App">
         <Header title="People finder" subtitle="Find and meet people"/>
@@ -42,7 +68,7 @@ class App extends Component {
             <Filter {...filters} setFilters={this.setFilters} />
 
             { /** render body components */}
-            <List {...filters} setFilters={this.setFilters}/>
+            <List users={users} {...filters} setFilters={this.setFilters}/>
           </div>
         </div>
       </div>

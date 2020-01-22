@@ -10,9 +10,6 @@ class Filter extends Component {
     return (
       <div className="container">
 
-        { /** top */ }
-        <div></div>
-
         { /** bottom */}
         <div>
         <nav className="pagination" role="navigation" aria-label="pagination">
